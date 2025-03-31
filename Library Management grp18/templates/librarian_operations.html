@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librarian Operations</title>
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='styles3.css') }}"> -->
+    <style>
+        body {
+            /* font-family: Arial, sans-serif;
+            padding: 20px; */
+            font-family: Arial, sans-serif;
+             background-color: #e8f5e9; /* Original background */
+             margin: 0;
+            padding: 0;
+              text-align: center;    
+        }
+
+        /* Header */
+            header {
+               background-color: #006400; /* Dark green */
+              color: white;
+              padding: 15px;
+              display: flex;
+             align-items: center;
+             justify-content: space-between;
+            padding-left: 20px;
+            }
+
+                h1 {
+                   margin: 0;
+                   flex-grow: 1;
+                  text-align: center;
+                }
+      
+
+        .nav-buttons {
+            /* margin-bottom: 20px; */
+            display: flex;
+            justify-content: center;
+             gap: 90px;
+             margin-top: 10px;
+             margin-left: 20px;
+            margin-right:20px;
+            padding:5px;
+            border: 2px solid #164a14; /* Border added around the container */
+            border-radius: 10px; /* Optional: for rounded corners */
+            background-color: #b8e3a0; /* Optional: for a contrasting background */
+            
+        }
+
+        .nav-buttons button {
+            /* margin-right: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+             */
+                    padding: 12px 20px;
+                    font-size: 1em;
+                    border: none;
+                    border-radius: 5px;          
+                    background-color: #458e47;
+                    color: white;
+                    cursor: pointer;          
+                   transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* transition: background-color 0.3s ease; */
+        }
+
+        .nav-buttons button:hover {
+        background-color: darkgreen; /* button turns to dark green when cursor moves on it*/
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+     /* Active button styling */
+     .nav-buttons button.active {
+                background-color: #333;
+                border: 2px solid #333;
+                transform: scale(1.05);
+                box-shadow: 0 4px 8px rgba(7, 7, 7, 0.2);
+            }   
+
+
+            
+        .form-section {
+            /* display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #140505;
+            border-radius: 12px;
+            background-color: #f9f9f9; */
+
+            display: none;  /* Hidden initially */
+            margin-top: 20px; /* Position below the operation buttons */
+            padding: 20px;
+            margin-left: 370px;
+            margin-right:370px;
+            border: 1px solid #164a14;
+            border-radius: 12px;
+            background-color: #e5ece1;
+            
+        }
+
+        .form-section input, .form-section select {
+           
+            margin-bottom: 12px;
+            padding: 8px;
+            font-size: 1em;
+            width: 50%;
+            border-radius: 50px;
+            border: 2px solid #39a251;
+            max-width: 400px;
+            /* padding: 10px;
+            width: 40%;
+            gap: 30px;
+            font-size: 1em;
+            border: 2px solid #39a251;
+            border-radius: 50px; */
+        }
+
+        .form-section input[type="submit"] {
+            /* background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+            cursor: pointer; */
+            padding: 10px;
+            width: 30%;
+            font-size: 1em;
+            font-weight: bold;
+            background-color: #a7d2b3;
+            border: 2px solid #39a251;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(2, 59, 44, 0.2);
+        }
+        input[type="submit"]:hover {
+        background-color: rgb(234, 245, 234);
+        transform: scale(1.1); /* Slightly enlarges the button */
+        }
+
+        .flash {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .flash.success { background-color: #d4edda; color: #155724; }
+        .flash.warning { background-color: #fff3cd; color: #856404; }
+        .flash.danger  { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <h1>Librarian Operations Dashboard</h1>
+    </header>
+    <hr>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+        <button onclick="toggleSection('AddBook')">Add Book</button>
+        <button onclick="toggleSection('AddCustomer')">Add Customer</button>
+        <button onclick="toggleSection('BorrowBook')">Borrow Book</button>
+        <button onclick="toggleSection('ReturnBook')">Return Book</button>
+        <button onclick="toggleSection('AddFine')">Add Fine</button>
+        <button onclick="toggleSection('PayFine')">Pay Fine</button>
+        <button onclick="toggleSection('SearchCustomer')">Search Customer</button>
+       
+    </div>
+
+    <!-- Add Book Form -->
+    <div id="AddBook" class="form-section">
+        <h2>Add Book</h2>
+        <form method="POST" action="/librarian_operations">
+            <input type="hidden" name="action_type" value="add_book"><br><br>
+            <input type="text" name="title" placeholder="Title" required><br>
+            <input type="text" name="author" placeholder="Author" required><br>
+            <input type="text" name="category" placeholder="Category"><br>
+            <input type="text" name="publisher" placeholder="Publisher"><br>
+            <input type="number" name="published_year" placeholder="Published Year"><br>
+            <input type="text" name="section" placeholder="Section"><br>
+            <input type="text" name="shelf" placeholder="Shelf"><br>
+            <input type="number" name="available_copies" placeholder="Available Copies" min="1" value="1"><br><br>
+            <input type="submit" value="Add Book">
+        </form>
+    </div>
+
+    <!-- Add Customer Form -->
+    <div id="AddCustomer" class="form-section">
+        <h3>Add Customer</h3>
+        <form method="POST" action="/librarian_operations">
+            <input type="hidden" name="action_type" value="add_customer"><br>
+            <input type="text" name="name" placeholder="Customer Name" required><br>
+            <input type="email" name="email" placeholder="Email" required><br>
+            <input type="text" name="phone" placeholder="Phone" required><br><br>
+            <input type="submit" value="Add Customer"><br>
+        </form>
+    </div>
+
+   
+    <!-- Borrow Book Form -->
+<div id="BorrowBook" class="form-section">
+    <h3>Borrow Book</h3>
+    <form method="POST" action="/librarian_operations">
+        <input type="hidden" name="action_type" value="borrow_book"><br>
+        <input type="text" name="customer_id" placeholder="Customer Id" required><br>
+        <input type="text" name="customer_name" placeholder="Customer Name" required><br>
+        <input type="text" name="book_title" placeholder="Book Title" required><br>
+        <p>Return Date</p>
+        <input type="date" name="return_date" placeholder="Return Date" required><br><br>
+        <input type="submit" value="Borrow Book">
+    </form>
+</div>
+
+
+    <!-- Return Book Form -->
+    <div id="ReturnBook" class="form-section">
+        <h3>Return Book</h3>
+        <form method="POST" action="/librarian_operations">
+            <input type="hidden" name="action_type" value="return_book"><br>
+            <input type="text" name="customer_id" placeholder="Enter Customer Id" required><br><br>
+            <input type="text" name="customer_name" placeholder="Enter Customer Name" required><br><br>
+            <input type="text" name="book_title" placeholder="Enter Book Title" required><br>
+            <input type="submit" value="Return Book">
+        </form>
+    </div>
+
+    <!-- Add Fine Form -->
+    <div id="AddFine" class="form-section">
+        <h3>Add Fine</h3>
+        <form method="POST" action="/librarian_operations"><br>
+            <input type="hidden" name="action_type" value="add_fine"><br>
+            <input type="text" name="customer_id" placeholder="Customer Id"><br>
+            <input type="text" name="customer_name" placeholder="Customer Name"><br>
+            <input type="number" name="fine_amount" step="0.01" placeholder="Fine Amount"><br><br>
+            <input type="submit" value="Add Fine">
+        </form>
+    </div>
+
+    <!-- Pay Fine Form -->
+    <div id="PayFine" class="form-section">
+        <h3>Pay Fine</h3>
+        <form method="POST" action="/librarian_operations">
+            <input type="hidden" name="action_type" value="pay_fine"><br>
+            <input type="text" name="customer_id" placeholder="Customer Id"><br>
+            <input type="text" name="customer_name" placeholder="Customer Name"><br>
+            <input type="number" step="0.01" name="pay_amount" placeholder="Amount Paid" required><br><br>
+            <input type="submit" value="Pay Fine">
+        </form>
+    </div>
+
+    <!-- Search Customer Form -->
+    <div id="SearchCustomer" class="form-section">
+        <h3>Search Customer</h3>
+        <form method="POST" action="/librarian_operations">
+            <input type="hidden" name="action_type" value="search_customer"><br>
+            <input type="text" name="customer_id" placeholder="Customer Id"><br><br>
+            <input type="text" name="customer_name" placeholder="Customer Name"><br><br>
+            <input type="submit" value="Search">
+        </form>
+        
+ 
+        {% if flag %}
+        {% if customers %}
+    <h3>Customer Search Results:</h3>
+        <div class="search-result" style="border: 1px solid #4CAF50; padding: 10px; margin-top: 10px; border-radius: 10px;">
+            <p><strong>ID:</strong> {{ customers.id }}</p>
+            <p><strong>Name:</strong> {{ customers.name }}</p>
+            <p><strong>Email:</strong> {{ customers.email }}</p>
+            <p><strong>Phone:</strong> {{ customers.phone }}</p>
+            <p><strong>Total Fine:</strong> ₹{{ customers.total_fine }}</p>
+        </div>
+    {% else %}
+    <p>No customers found.</p>
+    {% endif %}
+    {% endif %}
+    </div>
+
+    
+ <!-- javascripts starts here -->
+
+    <!-- JS to toggle forms -->
+    <script>
+        // Function to toggle sections
+        function toggleSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.form-section');
+            sections.forEach(section => section.style.display = 'none');
+            
+            // Show the selected section
+            const selected = document.getElementById(sectionId);
+            if (selected) selected.style.display = 'block';
+            
+            // Update active buttons
+            const buttons = document.querySelectorAll('.nav-buttons button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            buttons.forEach(btn => {
+                if (btn.getAttribute('onclick').includes(sectionId)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        // When page loads, check if there's an active section
+        document.addEventListener('DOMContentLoaded', function() {
+            // This will be replaced by the actual value from Flask
+            var activeSection = "{{ active_section|safe or '' }}";
+            
+            if (activeSection) {
+                toggleSection(activeSection);
+            }
+        });
+    </script>
+
+
+</body>
+</html>

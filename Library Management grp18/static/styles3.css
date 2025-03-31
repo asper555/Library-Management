@@ -1,0 +1,124 @@
+/* Base Page Styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #e8f5e9;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* Header */
+header {
+  background-color: #006400;
+  color: white;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2em;
+}
+
+/* Operation Buttons Styling */
+.operation_buttons {
+  margin: 20px 0;
+}
+
+.operation_buttons button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.operation_buttons button:hover,
+.operation_buttons button.active {
+  background-color: #388e3c;
+  transform: scale(1.05);
+}
+
+/* Input Forms Styling */
+input[type="text"], input[type="email"], input[type="number"] {
+  padding: 10px;
+  width: 60%;
+  margin: 10px auto;
+  display: block;
+  border: 2px solid #4caf50;
+  border-radius: 10px;
+  font-size: 1em;
+}
+
+input[type="submit"], button {
+  background-color: #4caf50;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 10px;
+  font-size: 16px;
+  color: white;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+input[type="submit"]:hover,
+button:hover {
+  background-color: #2e7d32;
+  transform: scale(1.05);
+}
+
+/* Section Styling */
+.add-book, .add-customer, .customer-details, .borrow-section, .transactions, .location, .search-bar {
+  background-color: #f1f8e9;
+  border-radius: 20px;
+  padding: 30px;
+  margin: 20px auto;
+  width: 80%;
+  box-shadow: 0 4px 8px rgba(0, 100, 0, 0.2);
+}
+
+.add-book h2,
+.add-customer h2,
+.customer-details h2,
+.borrow-section h2,
+.transactions h2,
+.location h2 {
+  color: #2e7d32;
+  margin-bottom: 20px;
+}
+
+/* Search Bar Specific Styling */
+.search-bar {
+  margin-top: 30px;
+}
+
+.search-bar input {
+  padding: 10px;
+  width: 50%;
+  font-size: 1em;
+  border: 2px solid #4caf50;
+  border-radius: 50px;
+}
+
+.search-bar button {
+  padding: 8px 18px;
+  font-size: 15px;
+  border-radius: 50px;
+  color: white;
+  background-color: #4caf50;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.search-bar button:hover {
+  background-color: #2e7d32;
+  transform: scale(1.05);
+}

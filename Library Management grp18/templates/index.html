@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Library Management System</h1>
+    </header>
+    <main>
+        <div class="welcome">
+            <h2>Welcome</h2>
+            <p class="role-text">Select your role to continue</p>
+
+            <div class="role-selection">
+                <div class="role">
+                    <a href="{{ url_for('customer') }}">
+                        <img src="{{ url_for('static', filename='customer.jpeg') }}" alt="Customer">
+                        <p>Customer</p>
+                    </a>
+                </div>
+
+                <div class="role">
+                    <a href="{{ url_for('librarian_login') }}">
+                        <img src="{{ url_for('static', filename='librarian.jpeg') }}" alt="Librarian">
+                        <p>Librarian</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
